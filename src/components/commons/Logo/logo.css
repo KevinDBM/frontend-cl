@@ -1,0 +1,18 @@
+.logo{
+    width: 337px;
+    max-width:100%;
+    background-color: #674f4f;
+    color: white;
+    margin-bottom: 15px;
+    border-radius: 3px;
+    text-align: center;
+    padding: 15px;
+    font-weight: bold;
+}
+.logo-link{
+    color:white
+}
+.logo-link:hover{
+    color:white;
+    text-decoration:none;
+}
