@@ -3,9 +3,16 @@ import {Link} from 'react-router-dom'
 //components
 import Header from '../../partials/Header/Header'
 import BookCard from './BookCard'
+
+//
+import proxyBase from '../../../services/proxyBase'
  
 const MyBooks = () => {
- 
+import proxyBase from '../../../services/proxyBase'
+  proxyBase.get('/test')
+  .then(response => console.log('response is',response))
+  .catch(error => console.log('error response',error.response))
+
   return (
     <Fragment>
       <Header/>
