@@ -8,4 +8,4 @@ COPY package.json /usr/src/app
 RUN npm set strict-ssl false
 RUN npm install
 COPY . .
-CMD ["npm", "run", "start"]
+CMD ["npm", "start"]

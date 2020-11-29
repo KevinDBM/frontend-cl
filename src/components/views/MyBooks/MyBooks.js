@@ -5,11 +5,10 @@ import Header from '../../partials/Header/Header'
 import BookCard from './BookCard'
 
 //
-import proxyBase from '../../../services/proxyBase'
+import instanceProxyBase from '../../../services/proxyBase'
  
 const MyBooks = () => {
-import proxyBase from '../../../services/proxyBase'
-  proxyBase.get('/test')
+  instanceProxyBase().get('/test')
   .then(response => console.log('response is',response))
   .catch(error => console.log('error response',error.response))
 
@@ -18,9 +17,9 @@ import proxyBase from '../../../services/proxyBase'
       <Header/>
       <main className="container card pt-3 pb-3 mt-4">
           <div className="buttons-section  d-flex justify-content-end">
-              <a href="" className="btn btn-danger mr-2">
+              <Link to="/" className="btn btn-danger mr-2">
                   ELIMINAR EN MASA
-              </a>
+              </Link>
               <Link to="/create-book" className="btn btn-primary">
                 AGREGAR
               </Link>
@@ -36,11 +35,11 @@ import proxyBase from '../../../services/proxyBase'
                 }
               <nav aria-label="Page navigation example" className="col-12 d-flex justify-content-center">
                   <ul className="pagination">
-                    <li className="page-item disabled"><a className="page-link" href="#">Previous</a></li>
-                    <li className="page-item active"><a className="page-link" href="#">1</a></li>
-                    <li className="page-item"><a className="page-link" href="#">2</a></li>
-                    <li className="page-item"><a className="page-link" href="#">3</a></li>
-                    <li className="page-item"><a className="page-link" href="#">Next</a></li>
+                    <li className="page-item disabled"><Link className="page-link" to="/">Previous</Link></li>
+                    <li className="page-item active"><Link className="page-link" to="/">1</Link></li>
+                    <li className="page-item"><Link className="page-link" to="/">2</Link></li>
+                    <li className="page-item"><Link className="page-link" to="#">3</Link></li>
+                    <li className="page-item"><Link className="page-link" to="#">Next</Link></li>
                   </ul>
                 </nav>
           </div>

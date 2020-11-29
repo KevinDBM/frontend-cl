@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  frontend:
+  frontend_cl:
     container_name: frontend-cl
     environment:
       - REACT_APP_NODE_ENV=${REACT_APP_DEVELOPMENT_ENV}
@@ -11,11 +11,7 @@ services:
         - REACT_APP_NODE_ENV=${REACT_APP_DEVELOPMENT_ENV}
       dockerfile: dev.Dockerfile
     ports:
-      - '3000:3000'
+      - '9252:3000'
     volumes:
       - /usr/src/app/node_modules
       - .:/usr/src/app
-networks:
-  default:
-    external:
-      name: comparto_libros
