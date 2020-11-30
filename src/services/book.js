@@ -21,7 +21,12 @@ const createBook = (title,isbn,author,image,description) => {
     return proxyBase().post('/books',body)
 }
 
+const deleteBook = (bookId) => {
+    return proxyBase().delete(`/books/${bookId}`)
+}
+
 export {
     getMyBooks,
-    createBook
+    createBook,
+    deleteBook
 }

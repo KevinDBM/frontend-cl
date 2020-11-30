@@ -1,4 +1,4 @@
-import React,{Fragment} from 'react'
+import React,{Fragment,useState} from 'react'
 import getExcerpt from '../../../utils/getExcerpt'
 
 //components
@@ -7,6 +7,11 @@ import ModalDeleteBook from './ModalDeleteBook';
 
 const BookCard = (props) => {
     const book = props.book;
+    const [selectedBook,setSelectedBook] = useState(null)
+
+    const handleSelectedBook = (book) => {
+        setSelectedBook(book)
+    }
 
     return (
         <Fragment>
@@ -35,12 +40,12 @@ const BookCard = (props) => {
                     <span href="" className="btn btn-secondary mr-1" data-toggle="tooltip" data-placement="top" title="Compartir libro en redes">
                         <i className="fa fa-share-alt" aria-hidden="true"></i>
                     </span>
-                    <span href="" className="btn btn-danger" data-toggle="modal" data-target="#exampleModal">
+                    <span href="" className="btn btn-danger" data-toggle="modal" data-target="#exampleModal" onClick={() => {handleSelectedBook(book)}}>
                         <i className="fa fa-trash-o" aria-hidden="true" data-toggle="tooltip" data-placement="top" title="Eliminar libro"></i>
                     </span>
                 </div>
             </article>
-            <ModalDeleteBook />
+            <ModalDeleteBook book={selectedBook} onDeleteBook={props.onDeleteBook}/>
         </Fragment>
         
     )

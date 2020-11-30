@@ -30,6 +30,10 @@ const MyBooks = (props) => {
     getBooks(numberPage)
   }
 
+  const handleDeleteBook = () => {
+    handleChangePage(1)
+  }
+
   useEffect(() => {
     getBooks()
   },[props.history])
@@ -50,7 +54,7 @@ const MyBooks = (props) => {
               {books && books.length && (
                 books.map(book => 
                   <div className="col-12 col-sm-3 mb-4" key={book.id}>
-                    <BookCard book={book}/>
+                    <BookCard book={book} onDeleteBook={handleDeleteBook}/>
                   </div>
                 )
               )}
