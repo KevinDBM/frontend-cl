@@ -1,3 +1,6 @@
 .icon-image-libro {
     font-size: 255px !important;
 }
+.preview-img-thumbnail img{
+    max-width:100%;
+}

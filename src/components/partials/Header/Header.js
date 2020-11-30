@@ -1,10 +1,16 @@
 import React from 'react'
-import {Link} from 'react-router-dom'
+import {Link,withRouter} from 'react-router-dom'
+import {deleteToken} from '../../../utils/token'
 
 //components
 import Logo from '../../commons/Logo/Logo'
 
 const Header = (props) => {
+    const logout = () => {
+        deleteToken()
+        props.history.push('/login')
+    }
+
     return (
         <header>
             <nav className="navbar navbar-expand-lg navbar-light bg-light">
@@ -32,13 +38,13 @@ const Header = (props) => {
                     </li>
                     
                 </ul>
-                <a href="login.html" className="logout-link">
+                <Link to="/" className="logout-link" onClick={logout}>
                     Logout
-                </a>
+                </Link>
                 </div>
             </nav>
         </header>
     )
 }
 
-export default Header;
+export default withRouter(Header);
