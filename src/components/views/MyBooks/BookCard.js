@@ -1,4 +1,5 @@
 import React,{Fragment,useState} from 'react'
+import { Link } from 'react-router-dom';
 import getExcerpt from '../../../utils/getExcerpt'
 
 //components
@@ -34,9 +35,9 @@ const BookCard = (props) => {
                     <label className="btn btn-dark mb-0 mr-1" data-toggle="tooltip" data-placement="top" title="Seleccionar libro">
                         <input type="checkbox" />
                     </label>
-                    <span href="" className="btn btn-primary mr-1" data-toggle="tooltip" data-placement="top" title="Editar libro">
+                    <Link to={`/edit-book/${book.id}`} className="btn btn-primary mr-1" data-toggle="tooltip" data-placement="top" title="Editar libro">
                         <i className="fa fa-pencil" aria-hidden="true"></i>
-                    </span>
+                    </Link>
                     <span href="" className="btn btn-secondary mr-1" data-toggle="tooltip" data-placement="top" title="Compartir libro en redes">
                         <i className="fa fa-share-alt" aria-hidden="true"></i>
                     </span>
