@@ -10,7 +10,7 @@ const InputWithErrors = (props) => {
                 </option>
                 {
                     props.options.map(option => 
-                        <option value={option[props.keyValue]}>
+                        <option value={option[props.keyValue]} key={option[props.keyValue]}>
                             {option[props.keyLabel]}
                         </option>
                     )
