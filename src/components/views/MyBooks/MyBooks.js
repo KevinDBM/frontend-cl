@@ -1,16 +1,42 @@
-import React,{Fragment} from 'react';
+import React,{Fragment,useState,useEffect,useContext} from 'react';
 import {Link} from 'react-router-dom'
 //components
 import Header from '../../partials/Header/Header'
 import BookCard from './BookCard'
-
-//
-import instanceProxyBase from '../../../services/proxyBase'
+import Pagination from '../../commons/Pagination/Pagination'
+import {printErrorAlert} from '../../../utils/printAlerts'
+import {AppContext} from '../../../AppContext'
+import {getMyBooks} from '../../../services/book'
  
-const MyBooks = () => {
-  instanceProxyBase().get('/test')
-  .then(response => console.log('response is',response))
-  .catch(error => console.log('error response',error.response))
+const MyBooks = (props) => {
+  const [generalContext,setGeneralContext] = useContext(AppContext)
+  const [books,setBooks] = useState(null)
+  const [pages,setPages] = useState(null)
+  const [currentPage,setCurrentPage] = useState(1)
+
+  const getBooks = (page=1) => {
+    getMyBooks(4,page)
+    .then(response => {
+      setPages(response.data.pagination.pages)
+      setCurrentPage(response.data.pagination.currentPage)
+      setBooks(response.data.books)
+    })
+    .catch(error => {
+      printErrorAlert(generalContext,setGeneralContext,error)
+    })
+  }
+
+  const handleChangePage = (numberPage) => {
+    getBooks(numberPage)
+  }
+
+  const handleDeleteBook = () => {
+    handleChangePage(1)
+  }
+
+  useEffect(() => {
+    getBooks()
+  },[props.history])
 
   return (
     <Fragment>
@@ -25,23 +51,17 @@ const MyBooks = () => {
               </Link>
           </div>
           <div className="row container-libros mt-4">
+              {books && books.length && (
+                books.map(book => 
+                  <div className="col-12 col-sm-3 mb-4" key={book.id}>
+                    <BookCard book={book} onDeleteBook={handleDeleteBook}/>
+                  </div>
+                )
+              )}
+              {books && books.length && (
+                <Pagination pages={pages} currentPage={currentPage} onChangePage={handleChangePage}/>
+              )}
               
-                {
-                  [0,1,2,3].map(index => 
-                      <div className="col-12 col-sm-3 mb-4" key={index}>
-                      <BookCard id={index}/>
-                      </div>
-                  )
-                }
-              <nav aria-label="Page navigation example" className="col-12 d-flex justify-content-center">
-                  <ul className="pagination">
-                    <li className="page-item disabled"><Link className="page-link" to="/">Previous</Link></li>
-                    <li className="page-item active"><Link className="page-link" to="/">1</Link></li>
-                    <li className="page-item"><Link className="page-link" to="/">2</Link></li>
-                    <li className="page-item"><Link className="page-link" to="#">3</Link></li>
-                    <li className="page-item"><Link className="page-link" to="#">Next</Link></li>
-                  </ul>
-                </nav>
           </div>
       </main>
     </Fragment>
