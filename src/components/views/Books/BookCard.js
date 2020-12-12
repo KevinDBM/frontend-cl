@@ -1,14 +1,25 @@
 import React from 'react'
 
+//utils
+import getExcerpt from '../../../utils/getExcerpt'
+
 const BookCard = (props) => {
+    const book = props.book;
+
     return (
         <article className="card">
-            <img className="card-img-top" src="https://i.redd.it/w3kr4m2fi3111.png" alt={props.id} />
+            <img className="card-img-top" src={book.image} alt={book.title} />
             <div className="card-body">
-                <h5 className="card-title">Nombre del libro</h5>
+                <h5 className="card-title">
+                    {book.title}
+                </h5>
                 <p className="card-text">
-                Short description   
-                <span className="blockquote-footer">Autor</span> 
+                {book.description && (
+                    `${getExcerpt(book.description)} ${book.description !== getExcerpt(book.description) ? '...' : ''}`
+                )}
+                <span className="blockquote-footer">
+                    {book.author.name}
+                </span> 
                 </p>
             </div>
             <div className="card-footer">

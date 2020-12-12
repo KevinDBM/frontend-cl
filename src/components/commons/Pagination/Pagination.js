@@ -1,6 +1,4 @@
-import { number } from 'prop-types';
-import React,{useState,Fragment} from 'react'
-import {Link} from 'react-router-dom'
+import React,{Fragment} from 'react'
 
 const Pagination = (props) => {
     const numberPages = props.pages;
@@ -28,19 +26,19 @@ const Pagination = (props) => {
                 <nav aria-label="Page navigation example" className="col-12 d-flex justify-content-center">
             <ul className="pagination">
                 <li className={`page-item ${parseInt(props.currentPage) === 1 && ('disabled')}`}>
-                    <Link className="page-link" to="/" onClick={() => {handleAddLessPage('prev')}}>Previous</Link>
+                    <button className="page-link" to="/" onClick={() => {handleAddLessPage('prev')}}>Previous</button>
                 </li>
                 {
                     pages.map(page => 
                         <li className={`page-item ${page===parseInt(props.currentPage) && ('active')}`} key={page}>
-                            <Link className="page-link" to="/" onClick={() => {handleChangePage(page)}}>
+                            <button className="page-link" onClick={() => {handleChangePage(page)}}>
                                 {page}
-                            </Link>
+                            </button>
                         </li>
                     )
                 }
                 <li className={`page-item ${parseInt(props.currentPage) === numberPages && ('disabled')}`}>
-                    <Link className="page-link" to="/" onClick={() => {handleAddLessPage('next')}}>Next</Link>
+                    <button className="page-link" to="/" onClick={() => {handleAddLessPage('next')}}>Next</button>
                 </li>
             </ul>
         </nav>

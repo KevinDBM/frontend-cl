@@ -10,6 +10,27 @@ const getMyBooks = (perPage,currentPage) => {
     })
 }
 
+const getAllBooks = (perPage,currentPage) => {
+    return proxyBase().get('/books',
+    {
+        params : {
+            perPage,
+            currentPage
+        }
+    })
+}
+
+const bookFinder = (perPage,currentPage,term) => {
+    return proxyBase().get('/books',
+    {
+        params : {
+            perPage,
+            currentPage,
+            term
+        }
+    })
+}
+
 const getBook = (bookId) => {
     return proxyBase().get(`/books/${bookId}`)
 }
@@ -54,5 +75,7 @@ export {
     createBook,
     updateBook,
     deleteBook,
-    deleteMultipleBooks
+    deleteMultipleBooks,
+    getAllBooks,
+    bookFinder
 }
