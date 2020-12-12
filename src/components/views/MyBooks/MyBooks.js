@@ -4,15 +4,16 @@ import {Link} from 'react-router-dom'
 import Header from '../../partials/Header/Header'
 import BookCard from './BookCard'
 import Pagination from '../../commons/Pagination/Pagination'
-import {printErrorAlert} from '../../../utils/printAlerts'
+import {printErrorAlert,printSingleErrorAlert,printSuccessAlert} from '../../../utils/printAlerts'
 import {AppContext} from '../../../AppContext'
-import {getMyBooks} from '../../../services/book'
+import {getMyBooks,deleteMultipleBooks} from '../../../services/book'
  
 const MyBooks = (props) => {
   const [generalContext,setGeneralContext] = useContext(AppContext)
   const [books,setBooks] = useState(null)
   const [pages,setPages] = useState(null)
   const [currentPage,setCurrentPage] = useState(1)
+  const [selectedBooks,setSelectedBooks] = useState([])
 
   const getBooks = (page=1) => {
     getMyBooks(4,page)
@@ -34,6 +35,37 @@ const MyBooks = (props) => {
     handleChangePage(1)
   }
 
+  const handleSelectedBook = (selectBook,selected) => {
+    const indexBook = selectedBooks.map(book => book.id).indexOf(selectBook.id);
+    const prevSelectedBooks = selectedBooks;
+    
+    if(selected && indexBook === -1){
+      prevSelectedBooks.push(selectBook)
+    }
+
+    if(!selected && indexBook !== -1){
+      prevSelectedBooks.splice(indexBook,1)
+    }
+
+    setSelectedBooks(prevSelectedBooks)
+    console.log('prev selected books',prevSelectedBooks)
+  }
+
+  const handleDeleteMultipleBooks = () => {
+    if(!selectedBooks.length){
+      printSingleErrorAlert(generalContext,setGeneralContext,'Debe elegir al menos un libro para eliminar')
+    }
+
+    deleteMultipleBooks(selectedBooks.map(book => book.id))
+    .then(response => {
+      handleChangePage(1)
+      printSuccessAlert(generalContext,setGeneralContext,response)
+    })
+    .catch(error => {
+      printErrorAlert(generalContext,setGeneralContext,error)
+    })
+  }
+
   useEffect(() => {
     getBooks()
   },[props.history])
@@ -43,9 +75,9 @@ const MyBooks = (props) => {
       <Header/>
       <main className="container card pt-3 pb-3 mt-4">
           <div className="buttons-section  d-flex justify-content-end">
-              <Link to="/" className="btn btn-danger mr-2">
+              <button className="btn btn-danger mr-2" onClick={handleDeleteMultipleBooks}>
                   ELIMINAR EN MASA
-              </Link>
+              </button>
               <Link to="/create-book" className="btn btn-primary">
                 AGREGAR
               </Link>
@@ -54,7 +86,11 @@ const MyBooks = (props) => {
               {books && books.length && (
                 books.map(book => 
                   <div className="col-12 col-sm-3 mb-4" key={book.id}>
-                    <BookCard book={book} onDeleteBook={handleDeleteBook}/>
+                    <BookCard 
+                      book={book} 
+                      onDeleteBook={handleDeleteBook}
+                      onSelectedBook={handleSelectedBook}
+                    />
                   </div>
                 )
               )}

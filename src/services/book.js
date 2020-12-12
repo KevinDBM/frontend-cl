@@ -40,10 +40,19 @@ const deleteBook = (bookId) => {
     return proxyBase().delete(`/books/${bookId}`)
 }
 
+const deleteMultipleBooks = (bookIds) => {
+    return proxyBase().delete(`/books/`,{
+        data : {
+            books : bookIds
+        }
+    })
+}
+
 export {
     getMyBooks,
     getBook,
     createBook,
     updateBook,
-    deleteBook
+    deleteBook,
+    deleteMultipleBooks
 }
