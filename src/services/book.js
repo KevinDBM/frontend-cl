@@ -1,3 +1,4 @@
+import { proxy } from 'jquery'
 import proxyBase from './proxyBase'
 
 const getMyBooks = (perPage,currentPage) => {
@@ -69,6 +70,16 @@ const deleteMultipleBooks = (bookIds) => {
     })
 }
 
+const getBookSuggestions = (term) => {
+    return proxyBase().get('/books/suggestions',
+    {
+        params : {
+            term
+        }
+    })
+}
+
+
 export {
     getMyBooks,
     getBook,
@@ -77,5 +88,6 @@ export {
     deleteBook,
     deleteMultipleBooks,
     getAllBooks,
-    bookFinder
+    bookFinder,
+    getBookSuggestions
 }
