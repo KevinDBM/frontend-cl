@@ -16,20 +16,18 @@ const printErrorAlert = (generalContext,setGeneralContext,error) => {
 }
 
 const printSingleErrorAlert = (generalContext,setGeneralContext,errorMessageToast) => {
-    if(error.response){
+    setGeneralContext({
+        ...generalContext,
+        showErrorToast:true,
+        errorMessageToast
+    })
+    setTimeout(() => {
         setGeneralContext({
             ...generalContext,
-            showErrorToast:true,
-            errorMessageToast
+            showErrorToast:false,
+            errorMessageToast : ''
         })
-        setTimeout(() => {
-            setGeneralContext({
-                ...generalContext,
-                showErrorToast:false,
-                errorMessageToast : ''
-            })
-        },5000)
-    }
+    },5000)
 }
 
 const printSuccessAlert = (generalContext,setGeneralContext,response) => {
