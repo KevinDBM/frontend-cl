@@ -15,7 +15,14 @@ const getMyBookRequestList = (perPage,currentPage) => {
     })
 }
 
+const updateStatusBookRequest = (bookRequestId,status) => {
+    return proxyBase().patch(`/book-requests/${bookRequestId}/status`,{
+        status
+    })
+}
+
 export {
     addRequest,
-    getMyBookRequestList
+    getMyBookRequestList,
+    updateStatusBookRequest
 }
