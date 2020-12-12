@@ -1,10 +1,38 @@
-import React,{Fragment} from 'react'
+import React,{Fragment,useContext} from 'react'
 import './requestCard.css'
 
 import CurrencyFormat from 'react-currency-format';
 
+import {bookRequestStatusEnum} from '../../../utils/enums'
+
+import {updateStatusBookRequest} from '../../../services/bookRequest'
+
+import {AppContext} from '../../../AppContext'
+
+import {printErrorAlert,printSuccessAlert} from '../../../utils/printAlerts'
+
 const RequestCard = (props) => {
     const bookRequest = props.bookRequest;
+    const [generalContext,setGeneralContext] = useContext(AppContext)
+
+    const handleSendUpdateStatusBookRequest = (newStatus) => {
+        updateStatusBookRequest(bookRequest.id,newStatus)
+        .then(response => {
+            printSuccessAlert(generalContext,setGeneralContext,response)
+            props.onChangeStatus()
+        })
+        .catch(error => {
+            printErrorAlert(generalContext,setGeneralContext,error)
+        })
+    }
+    
+    const handleApproveRequest = () => {
+        handleSendUpdateStatusBookRequest(bookRequestStatusEnum.Aprobada.name)
+    }
+
+    const handleDeclineRequest = () => {
+        handleSendUpdateStatusBookRequest(bookRequestStatusEnum.Rechazada.name)
+    }
 
     return (
         <div className="container py-3">
@@ -12,7 +40,7 @@ const RequestCard = (props) => {
             <div className="row mx-0">
                 <div className="col-4">
                     <div className="img-thumbnail text-center">
-                        <i className="fa fa-picture-o icon-image-libro-th" aria-hidden="true"></i>
+                        <img src={bookRequest.requestedBook.image} alt={bookRequest.requestedBook.title} className="image-book-request"/>
                     </div>
                 </div>
                 <div className="col-8 pl-0">
@@ -44,14 +72,13 @@ const RequestCard = (props) => {
                                 </Fragment>
                             )
                         }
-                        {/* Pepito Pérez ofreción $6.000 por el libro */}
                     </p>
-                    <a href="/" className="btn btn-primary mr-2">
+                    <button className="btn btn-primary mr-2" onClick={handleApproveRequest}>
                         <i className="fa fa-thumbs-o-up" aria-hidden="true"></i>
-                    </a>
-                    <a href="/" className="btn btn-danger">
+                    </button>
+                    <button className="btn btn-danger" onClick={handleDeclineRequest}>
                         <i className="fa fa-thumbs-o-down" aria-hidden="true"></i>
-                    </a>
+                    </button>
                     </div>
                 </div>
         

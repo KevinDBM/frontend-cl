@@ -28,8 +28,15 @@ const Requests = (props) => {
             setBookRequestList(response.data.bookRequests)
           })
           .catch(error => {
+              if(error.response.status===404){
+                setBookRequestList([])
+              }
             printErrorAlert(generalContext,setGeneralContext,error)
           })
+    }
+
+    const handleChangeStatus = () => {
+        getBookRequestList()
     }
 
     useEffect(() => {
@@ -43,7 +50,9 @@ const Requests = (props) => {
                 <div className="row">
                     {bookRequestList && bookRequestList.length && (
                         bookRequestList.map(bookRequest => 
-                            <RequestCard key={bookRequest.id} bookRequest={bookRequest} />
+                            <div className="co-12 col-sm-6">
+                                <RequestCard key={bookRequest.id} bookRequest={bookRequest} onChangeStatus={handleChangeStatus}/>
+                            </div>
                         )
                     )}
                     {bookRequestList && bookRequestList.length && (
