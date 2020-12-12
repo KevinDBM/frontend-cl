@@ -7,9 +7,11 @@ import ModalRequestBook from './ModalRequestBook'
 import {AppContext} from '../../../AppContext'
 import {printErrorAlert} from '../../../utils/printAlerts'
 import Pagination from '../../commons/Pagination/Pagination'
+import SearchInput from './SearchInput/SearchInput'
 
 //services
-import {getAllBooks,getMyBooks} from '../../../services/book'
+import {getAllBooks,getMyBooks,bookFinder} from '../../../services/book'
+import { number } from 'prop-types';
  
 const Books = (props) => {
   const [listBooks,setListBooks] = useState([])
@@ -17,6 +19,7 @@ const Books = (props) => {
   const [pages,setPages] = useState(null)
   const [currentPage,setCurrentPage] = useState(1)
   const [generalContext,setGeneralContext] = useContext(AppContext)
+  const [termSearch,setTermSearch] = useState(null)
 
   const getListBooks = (page=1) => {
     getAllBooks(4,page)
@@ -41,7 +44,26 @@ const Books = (props) => {
   }
 
   const handleChangePage = (numberPage) => {
-    getListBooks(numberPage)
+    if(termSearch){
+      handleOnSearch(termSearch,number)
+    }
+    else{
+      getListBooks(numberPage)
+    }
+    
+  }
+
+  const handleOnSearch = (termSearch,page) => {
+    setTermSearch(termSearch)
+    bookFinder(4,page,termSearch)
+    .then(response => {
+      setPages(response.data.pagination.pages)
+      setCurrentPage(response.data.pagination.currentPage)
+      setListBooks(response.data.books)
+    })
+    .catch(error => {
+      printErrorAlert(generalContext,setGeneralContext,error)
+    })
   }
 
   useEffect(() => {
@@ -54,14 +76,9 @@ const Books = (props) => {
       <main className="container card pt-3 pb-3 mt-4">
         <div className="row">
             <div className="col-12 offset-4 col-md-4">
-                <form className="row">
-                    <div className="form-group col-10 pr-0">
-                        <input type="text" className="form-control" id="inputPassword2" placeholder="Buscar"/>
-                    </div>
-                    <div className="col-2 pl-0">
-                        <button type="submit" className="btn btn-primary btn-block"><i className="fa fa-search" aria-hidden="true"></i></button>
-                    </div>
-                    </form>
+              <div className="row">
+                <SearchInput onSearch={handleOnSearch}/>
+              </div>
             </div>
         </div>
         

@@ -1,0 +1,19 @@
+.search-form__continer {
+    position: relative;
+}
+
+.search-form__suggestions-container{
+    position: absolute;
+    z-index: 1;
+    background-color: #fff;
+    width: calc(100% - 60px);
+    top: 100%;
+    left: 30px;
+    border-radius: 0 0 10px 10px;
+    list-style: none;
+    padding: 15px;
+}
+.search-form__suggestion-item {
+    padding-bottom: 10px;
+    cursor:pointer;
+}

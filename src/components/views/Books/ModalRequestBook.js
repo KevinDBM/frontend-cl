@@ -58,7 +58,7 @@ const ModalRequestBook = (props) => {
             <div className="modal-dialog" role="document">
             <div className="modal-content">
                 <div className="modal-header">
-                <h5 className="modal-title" id="exampleModalLabel">¿Ofrecer dinero por el libro proponer cambio?</h5>
+                <h5 className="modal-title" id="exampleModalLabel">Ofrecer dinero por el libro proponer cambio</h5>
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true" ref={closeModalButton}>&times;</span>
                 </button>
