@@ -9,10 +9,11 @@ import {printErrorAlert} from '../../../utils/printAlerts'
 import Pagination from '../../commons/Pagination/Pagination'
 
 //services
-import {getAllBooks} from '../../../services/book'
+import {getAllBooks,getMyBooks} from '../../../services/book'
  
 const Books = (props) => {
   const [listBooks,setListBooks] = useState([])
+  const [myBooks,setMyBooks] = useState([])
   const [pages,setPages] = useState(null)
   const [currentPage,setCurrentPage] = useState(1)
   const [generalContext,setGeneralContext] = useContext(AppContext)
@@ -23,6 +24,16 @@ const Books = (props) => {
       setPages(response.data.pagination.pages)
       setCurrentPage(response.data.pagination.currentPage)
       setListBooks(response.data.books)
+    })
+    .catch(error => {
+      printErrorAlert(generalContext,setGeneralContext,error)
+    })
+  }
+
+  const getOwnBooks = () => {
+    getMyBooks(1000,1)
+    .then(response => {
+      setMyBooks(response.data.books)
     })
     .catch(error => {
       printErrorAlert(generalContext,setGeneralContext,error)
@@ -58,7 +69,7 @@ const Books = (props) => {
         {listBooks && listBooks.length && (
             listBooks.map(book =>
                 <div className="col-12 col-sm-6 col-md-3 mb-4" key={book.id}>
-                    <BookCard book={book}/>
+                    <BookCard book={book} handleChangeModalRequest={getOwnBooks} myBooks={myBooks}/>
                 </div>
             )
         )}
@@ -67,7 +78,6 @@ const Books = (props) => {
         )}
         </div>
         </main>
-        <ModalRequestBook />
     </Fragment>
     
   )
