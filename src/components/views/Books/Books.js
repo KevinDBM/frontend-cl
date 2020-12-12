@@ -3,7 +3,6 @@ import React,{Fragment, useState,useContext,useEffect} from 'react';
 //components
 import Header from '../../partials/Header/Header'
 import BookCard from './BookCard'
-import ModalRequestBook from './ModalRequestBook'
 import {AppContext} from '../../../AppContext'
 import {printErrorAlert} from '../../../utils/printAlerts'
 import Pagination from '../../commons/Pagination/Pagination'
@@ -53,9 +52,9 @@ const Books = (props) => {
     
   }
 
-  const handleOnSearch = (termSearch,page) => {
-    setTermSearch(termSearch)
-    bookFinder(4,page,termSearch)
+  const handleOnSearch = (termSearchInt,page) => {
+    setTermSearch(termSearchInt)
+    bookFinder(4,page,termSearchInt)
     .then(response => {
       setPages(response.data.pagination.pages)
       setCurrentPage(response.data.pagination.currentPage)

@@ -6,6 +6,16 @@ const addRequest = (requestedBook,priceOffered,bookToBarter) => {
     })
 }
 
+const getMyBookRequestList = (perPage,currentPage) => {
+    return proxyBase().get('/book-requests',{
+        params : {
+            perPage,
+            currentPage
+        }
+    })
+}
+
 export {
-    addRequest
+    addRequest,
+    getMyBookRequestList
 }
